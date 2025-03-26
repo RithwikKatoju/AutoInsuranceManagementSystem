@@ -7,10 +7,11 @@ namespace AutoInsuranceManagementSystem.Models
     {
         [Key]
         public Guid PolicyId { get; set; }
+        public string? UserId { get; set; }
         public string? PolicyNumber { get; set; }
         public VehicleDetails? VehicleDetails { get; set; }
-        public decimal? CoverageAmount { get; set; }
-        public CoverageTypes? CoverageType { get; set; }
+        public decimal CoverageAmount { get; set; }
+        public CoverageTypes CoverageType { get; set; }
         public decimal? PremiumAmount { get; set; }
         public DateOnly? StartDate { get; set; }
         public DateOnly? EndDate { get; set; }

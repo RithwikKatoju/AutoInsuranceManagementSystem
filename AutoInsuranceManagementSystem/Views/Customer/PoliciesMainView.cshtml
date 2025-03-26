@@ -1,0 +1,25 @@
+﻿@model AutoInsuranceManagementSystem.Models.PolicyViewModel.PolicyMainModel
+
+@{
+    ViewBag.Title = "Policy Dashboard";
+}
+
+<div class="dashboard-container">
+    <h1>Policy Management Dashboard</h1>
+
+    <hr />
+
+    <div class="row">
+        <!-- Render CreatePolicy Partial View -->
+        <div class="col-md-2">
+            <h2>Create New Policy</h2>
+            @Html.Partial("_CreatePolicyPartial", Model.CreatePolicyViewModel)
+        </div>
+
+        <!-- Render ManagePolicies Partial View -->
+        <div class="col-md-2">
+            <h2>Manage Policies</h2>
+            @Html.Partial("_ManagePoliciesPartial", Model.ManagePolicyViewModel)
+        </div>
+    </div>
+</div>

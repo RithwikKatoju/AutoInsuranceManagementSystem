@@ -1,0 +1,36 @@
+﻿@model AutoInsuranceManagementSystem.Models.PolicyViewModel.CreatePolicyViewModel
+
+@{
+	ViewBag.Title = "Create new Policy";
+}
+
+<div class="form-container">
+	<div class="text-danger" asp-validation-summary="All"></div>
+	<form class="form" asp-action="_CreatePolicyPartial" asp-controller="Customer" method="post">
+		<div class="form-group">
+			<label for="Make">Vehicle Manufacturer </label>
+			<input type="text" class="form-control" id="Make" name="VehicleDetails.Make" value="@Model.VehicleDetails?.Make" />
+		</div>
+		<div class="form-group">
+			<label for="Model">Vehicle Model </label>
+			<input type="text" class="form-control" id="Model" name="VehicleDetails.Model" value="@Model.VehicleDetails?.Model" />
+		</div>
+		<div class="form-group">
+			<label for="Year">Vehicle Manufacture Year</label>
+			<input type="date" class="form-control" id="Year" name="VehicleDetails.Year" value="@Model.VehicleDetails?.Year" />
+		</div>
+		<div class="form-group">
+			<label for="CoverageAmount">CoverageAmount</label>
+			<input type="text" class="form-control" id="CoverageAmount" name="CoverageAmount" value="@Model.CoverageAmount" />
+		</div>
+
+		<div class="form-group">
+			<label for="CoverageType">CoverageType</label>
+			@Html.DropDownListFor(x => x.CoverageType,
+							Model.AllCoverageTypes,
+							"Select a Category,",
+							new { @id = "CoverageType", @class = "form-control" })
+		</div>
+		<button type="submit" class="btn btn-primary">Create New Policy</button>
+	</form>
+</div>

@@ -1,0 +1,28 @@
+﻿@model AutoInsuranceManagementSystem.Models.ClaimViewModel.CreateClaimViewModel
+
+@{
+	ViewBag.Title = "Create new Policy";
+}
+
+<div class="form-container">
+	<div class="text-danger" asp-validation-summary="All"></div>
+	<form class="form" asp-action="CreateClaimPartial" asp-controller="Customer" method="post">
+		<div class="form-group">
+			<label for="PolicyNumber">CoverageType</label>
+			@Html.DropDownListFor(x => x.PolicyNumber,
+							Model.PolicyNumbers,
+							"Select a Policy,",
+							new { @id = "PolicyNumber", @class = "form-control" })
+		</div>
+		<div class="form-group">
+			<label for="ClaimAmount">Claim Amount</label>
+			<input type="text" class="form-control" id="ClaimAmount" name="ClaimAmount" value="@Model.ClaimAmount" />
+		</div>
+		<div class="form-group">
+			<label for="ClaimReason">Claim Reason</label>
+			<input type="text" class="form-control" id="ClaimReason" name="ClaimReason" value="@Model.ClaimReason" />
+		</div>
+
+		<button type="submit" class="btn btn-primary">Submit Claim</button>
+	</form>
+</div>

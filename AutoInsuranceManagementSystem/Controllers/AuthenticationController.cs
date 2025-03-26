@@ -4,6 +4,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using AutoInsuranceManagementSystem.Models;
 using Microsoft.AspNetCore.Authentication;
+using Azure.Core.Pipeline;
 
 namespace AutoInsuranceManagementSystem.Controllers
 {
@@ -109,6 +110,16 @@ namespace AutoInsuranceManagementSystem.Controllers
                         ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(20)
                     };
                     await HttpContext.SignInAsync(scheme, principle, authenticationProperties);
+
+                    if(user.Role == Roles.ADMIN)
+                    {
+                        return RedirectToAction("Index", "Home", new{area = "Admin"});
+                    }
+                    else if(user.Role == Roles.AGENT)
+                    {
+                        return RedirectToAction("Index", "Home", new{area = "Agent"});
+                    }
+
                     return Redirect(ReturnUrl);
 
                 }

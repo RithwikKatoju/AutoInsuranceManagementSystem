@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AutoInsuranceManagementSystem.DbContext;
 using AutoInsuranceManagementSystem.Models;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +22,10 @@ builder.Services.AddIdentity<UserEntityModel, IdentityRole>(Options =>
     Options.User.RequireUniqueEmail = true;
 }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("CUSTOMER", policy => policy.RequireClaim(ClaimTypes.Role, "CUSTOMER"))
+    .AddPolicy("AGENT", policy => policy.RequireClaim(ClaimTypes.Role, "AGENT"))
+    .AddPolicy("ADMIN", policy => policy.RequireClaim(ClaimTypes.Role, "ADMIN"));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -34,8 +39,8 @@ builder.Services.AddAuthentication(options =>
 }).AddCookie();
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.LoginPath = "/Authentication/Login";
+    options.AccessDeniedPath = "/Authentication/AccessDenied";
 });
 
 
@@ -58,9 +63,21 @@ app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
+    name: "Admin",
+    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "Agent",
+    pattern: "Agent/{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+
+
+
 
 
 app.Run();

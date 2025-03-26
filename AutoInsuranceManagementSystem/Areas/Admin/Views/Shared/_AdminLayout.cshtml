@@ -20,13 +20,14 @@
         </div>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a asp-controller="Home" asp-action="Index" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a asp-controller="Customer" asp-action="DashboardIndex" class="nav-link px-2">Dashboard</a></li>
-            <li><a asp-controller="Customer" asp-action="PoliciesMainView" class="nav-link px-2">Policies</a></li>
-            <li><a asp-controller="Customer" asp-action="ClaimsMainView" class="nav-link px-2">Claims</a></li>
-            <li><a asp-controller="Customer" asp-action="Index" class="nav-link px-2">Payments</a></li>
-            <li><a asp-controller="Customer" asp-action="Index" class="nav-link px-2">Support</a></li>
-            <li><a asp-controller="Customer" asp-action="Index" class="nav-link px-2">Profile</a></li>
+            <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a asp-area="Agent" asp-controller="PolicyClaimPaymentViewModel" asp-action="Index" class="nav-link px-2">DashBoard</a></li>
+            <li><a asp-area="Admin" asp-controller="?" asp-action="Index" class="nav-link px-2">ManageUsers</a></li>
+            <li><a asp-area="Admin" asp-controller="Policy" asp-action="Index" class="nav-link px-2">Policies</a></li>
+            <li><a asp-area="Admin" asp-controller="Claim" asp-action="Index" class="nav-link px-2">Claims</a></li>
+            <li><a asp-area="Admin" asp-controller="Payment" asp-action="Index" class="nav-link px-2">Payments</a></li>
+            <li><a asp-area="Admin" asp-controller="Support" asp-action="Index" class="nav-link px-2">Support</a></li>
+            <li><a asp-area="Admin" asp-controller="?" asp-action="Index" class="nav-link px-2">Profile</a></li>
         </ul>
 
 

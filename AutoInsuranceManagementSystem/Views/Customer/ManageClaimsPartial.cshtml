@@ -1,0 +1,100 @@
+﻿@model IEnumerable<AutoInsuranceManagementSystem.Models.ClaimEntityModel>
+
+@{
+	ViewBag.Title = "Manage Claims";
+}
+<div class="form-container ">
+	@if (Model != null && Model.Any())
+	{
+		int Open = 0;
+		int Closed = 0;
+		<div>
+			@foreach (var user in Model.Where(u => u.ClaimStatus == AutoInsuranceManagementSystem.Models.ClaimStatus.OPEN))
+			{
+				Open++;
+			}
+			@foreach (var user in Model.Where(u => u.ClaimStatus == AutoInsuranceManagementSystem.Models.ClaimStatus.REJECTED || u.ClaimStatus == AutoInsuranceManagementSystem.Models.ClaimStatus.APPROVED))
+			{
+				Closed++;
+			}
+			@if (Open > 0)
+			{
+				<h4 class="d-flex flex-row justify-content-center">Acitve Claims</h4>
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>ClaimId</th>
+							<th>PolicyNumber</th>
+							<th>ClaimAmount</th>
+							<th>ClaimReason</th>
+							<th>ClaimDate</th>
+							<th>ClaimStatus</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var user in Model.Where(u => u.ClaimStatus == AutoInsuranceManagementSystem.Models.ClaimStatus.OPEN))
+						{
+							<tr>
+								<td>@user.ClaimId</td>
+								<td>@user.PolicyNumber</td>
+								<td>@user.ClaimAmount</td>
+								<td>@user.ClaimReason</td>
+								<td>@user.ClaimDate</td>
+								<td>@user.ClaimStatus</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+			else
+			{
+				<p>No active policies</p>
+			}
+
+		</div>
+		<div>
+			@if (Closed > 0)
+			{
+				<h4 class="d-flex flex-row justify-content-center">Closed Claims</h4>
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>ClaimId</th>
+							<th>PolicyNumber</th>
+							<th>ClaimAmount</th>
+							<th>ClaimReason</th>
+							<th>ClaimDate</th>
+							<th>ClaimStatus</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var user in Model.Where(u => u.ClaimStatus == AutoInsuranceManagementSystem.Models.ClaimStatus.REJECTED || u.ClaimStatus == AutoInsuranceManagementSystem.Models.ClaimStatus.APPROVED))
+						{
+							<tr>
+								<td>@user.ClaimId</td>
+								<td>@user.PolicyNumber</td>
+								<td>@user.ClaimAmount</td>
+								<td>@user.ClaimReason</td>
+								<td>@user.ClaimDate</td>
+								<td>@user.ClaimStatus</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+			else
+			{
+				<p>No Closed Claims</p>
+			}
+
+
+		</div>
+
+	}
+	else
+	{
+		<div class="alert alert-info" role="alert">No Claims Found</div>
+	}
+	<br />
+	<a asp-asp-controller="Customer" asp-action="CreateClaimPartial" class="btn btn-primary">Submit Claim</a>
+</div>

@@ -4,6 +4,7 @@ using AutoInsuranceManagementSystem.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoInsuranceManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250326093942_PolicyIdInClaimTable")]
+    partial class PolicyIdInClaimTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,8 +46,8 @@ namespace AutoInsuranceManagementSystem.Migrations
                     b.Property<int?>("ClaimStatus")
                         .HasColumnType("int");
 
-                    b.Property<string>("PolicyNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("PolicyId1")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
@@ -52,6 +55,8 @@ namespace AutoInsuranceManagementSystem.Migrations
                     b.HasKey("ClaimId");
 
                     b.HasIndex("AdjusterIdId");
+
+                    b.HasIndex("PolicyId1");
 
                     b.ToTable("Claims");
                 });
@@ -360,7 +365,13 @@ namespace AutoInsuranceManagementSystem.Migrations
                         .WithMany()
                         .HasForeignKey("AdjusterIdId");
 
+                    b.HasOne("AutoInsuranceManagementSystem.Models.PolicyEntityModel", "PolicyId")
+                        .WithMany()
+                        .HasForeignKey("PolicyId1");
+
                     b.Navigation("AdjusterId");
+
+                    b.Navigation("PolicyId");
                 });
 
             modelBuilder.Entity("AutoInsuranceManagementSystem.Models.PaymentEntityModel", b =>

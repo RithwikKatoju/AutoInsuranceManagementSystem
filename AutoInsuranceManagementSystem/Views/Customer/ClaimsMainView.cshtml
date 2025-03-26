@@ -1,0 +1,25 @@
+﻿@model AutoInsuranceManagementSystem.Models.ClaimViewModel.ClaimMainModel
+
+@{
+    ViewBag.Title = "Claims Dashboard";
+}
+
+<div class="dashboard-container">
+    <h1>Claims Management Dashboard</h1>
+
+    <hr />
+
+    <div class="row">
+        <!-- Render CreatePolicy Partial View -->
+        <div class="col-md-2">
+            <h2>Submit New Claim</h2>
+            @Html.Partial("CreateClaimPartial", Model.CreateClaimViewModel)
+        </div>
+
+        <!-- Render ManagePolicies Partial View -->
+        <div class="col-md-2">
+            <h2>Manage Claims</h2>
+            @Html.Partial("ManageClaimsPartial", Model.ManageClaimViewModel)
+        </div>
+    </div>
+</div>

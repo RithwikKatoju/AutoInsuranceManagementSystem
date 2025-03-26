@@ -6,7 +6,8 @@ namespace AutoInsuranceManagementSystem.Models
     {
         [Key]
         public Guid? TicketId { get; set; }
-        public UserEntityModel? UserId { get; set; }
+        public string? UserId { get; set; }
+        public PolicyEntityModel? PolicyId { get; set; }
         public string? IssueDescription { get; set; }
         public TicketStatus? TicketStatus { get; set; }
         public DateOnly? CreatedDate { get; set; }

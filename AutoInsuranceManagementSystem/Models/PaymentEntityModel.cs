@@ -6,6 +6,7 @@ namespace AutoInsuranceManagementSystem.Models
     {
         [Key]
         public Guid? PaymentId { get; set; }
+        public string? UserId { get; set; }
         public PolicyEntityModel? PolicyId { get; set; }
         public decimal? PaymentAmount { get; set; }
         public DateOnly? PaymentDate { get; set; }

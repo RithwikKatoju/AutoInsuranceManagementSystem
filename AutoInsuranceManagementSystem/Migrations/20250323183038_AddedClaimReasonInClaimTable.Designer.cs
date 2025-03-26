@@ -4,6 +4,7 @@ using AutoInsuranceManagementSystem.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoInsuranceManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250323183038_AddedClaimReasonInClaimTable")]
+    partial class AddedClaimReasonInClaimTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,15 +46,14 @@ namespace AutoInsuranceManagementSystem.Migrations
                     b.Property<int?>("ClaimStatus")
                         .HasColumnType("int");
 
-                    b.Property<string>("PolicyNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("PolicyId1")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ClaimId");
 
                     b.HasIndex("AdjusterIdId");
+
+                    b.HasIndex("PolicyId1");
 
                     b.ToTable("Claims");
                 });
@@ -74,9 +76,6 @@ namespace AutoInsuranceManagementSystem.Migrations
                     b.Property<Guid?>("PolicyId1")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("PaymentId");
 
                     b.HasIndex("PolicyId1");
@@ -90,10 +89,10 @@ namespace AutoInsuranceManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("CoverageAmount")
+                    b.Property<decimal?>("CoverageAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("CoverageType")
+                    b.Property<int?>("CoverageType")
                         .HasColumnType("int");
 
                     b.Property<DateOnly?>("EndDate")
@@ -110,9 +109,6 @@ namespace AutoInsuranceManagementSystem.Migrations
 
                     b.Property<DateOnly?>("StartDate")
                         .HasColumnType("date");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PolicyId");
 
@@ -131,21 +127,18 @@ namespace AutoInsuranceManagementSystem.Migrations
                     b.Property<string>("IssueDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("PolicyId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateOnly?>("ResolvedDate")
                         .HasColumnType("date");
 
                     b.Property<int?>("TicketStatus")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("UserIdId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("TicketId");
 
-                    b.HasIndex("PolicyId1");
+                    b.HasIndex("UserIdId");
 
                     b.ToTable("Tickets");
                 });
@@ -360,7 +353,13 @@ namespace AutoInsuranceManagementSystem.Migrations
                         .WithMany()
                         .HasForeignKey("AdjusterIdId");
 
+                    b.HasOne("AutoInsuranceManagementSystem.Models.PolicyEntityModel", "PolicyId")
+                        .WithMany()
+                        .HasForeignKey("PolicyId1");
+
                     b.Navigation("AdjusterId");
+
+                    b.Navigation("PolicyId");
                 });
 
             modelBuilder.Entity("AutoInsuranceManagementSystem.Models.PaymentEntityModel", b =>
@@ -404,11 +403,11 @@ namespace AutoInsuranceManagementSystem.Migrations
 
             modelBuilder.Entity("AutoInsuranceManagementSystem.Models.SupportTicketEntity", b =>
                 {
-                    b.HasOne("AutoInsuranceManagementSystem.Models.PolicyEntityModel", "PolicyId")
+                    b.HasOne("AutoInsuranceManagementSystem.Models.UserEntityModel", "UserId")
                         .WithMany()
-                        .HasForeignKey("PolicyId1");
+                        .HasForeignKey("UserIdId");
 
-                    b.Navigation("PolicyId");
+                    b.Navigation("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
