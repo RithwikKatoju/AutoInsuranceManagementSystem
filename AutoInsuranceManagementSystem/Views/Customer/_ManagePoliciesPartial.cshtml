@@ -32,7 +32,7 @@
 							<th>EndDate</th>
 							<th>Policy Status</th>
 							<th>PremiumAmount</th>
-							<th>Actions</th>
+							@* <th>Actions</th> *@
 						</tr>
 					</thead>
 					<tbody>
@@ -48,10 +48,9 @@
 								<td>@user.EndDate</td>
 								<td>@user.PolicyStatus</td>
 								<td>@user.PremiumAmount</td>
-								<td>
-									<a asp-asp-controller="Customer" asp-action="RenewPolicy" asp-route-id="@user.PolicyId" class="btn btn-danger">Renew</a>
-									<a asp-asp-controller="Customer" asp-action="UpdatePolicy" asp-route-id="@user.PolicyId" class="btn btn-primary">Update</a>
-								</td>
+								@* <td> *@
+								@* 	<a asp-controller="Customer" asp-action="RenewPolicy" asp-route-PolicyId="@user.PolicyId" class="btn btn-primary">Renew</a> *@
+								@* </td> *@
 							</tr>
 						}
 					</tbody>
@@ -79,7 +78,7 @@
 							<th>EndDate</th>
 							<th>Policy Status</th>
 							<th>PremiumAmount</th>
-							<th>Actions</th>
+							@* <th>Actions</th> *@
 						</tr>
 					</thead>
 					<tbody>
@@ -95,10 +94,9 @@
 								<td>@user.EndDate</td>
 								<td>@user.PolicyStatus</td>
 								<td>@user.PremiumAmount</td>
-								<td>
-									<a asp-asp-controller="Customer" asp-action="RenewPolicy" asp-route-id="@user.PolicyId" class="btn btn-danger">Renew</a>
-									<a asp-asp-controller="Customer" asp-action="UpdatePolicy" asp-route-id="@user.PolicyId" class="btn btn-primary">Update</a>
-								</td>
+								@* <td> *@
+								@* 	<a asp-asp-controller="Customer" asp-action="RenewPolicy" asp-route-id="@user.PolicyId" class="btn btn-danger">Renew</a> *@
+								@* </td> *@
 							</tr>
 						}
 					</tbody>
@@ -117,6 +115,4 @@
 	{
 		<div class="alert alert-info" role="alert">No User Found</div>
 	}
-	<br />
-	<a asp-asp-controller="Customer" asp-action="CreatePolicy" class="btn btn-primary">Create New Policy</a>
 </div>

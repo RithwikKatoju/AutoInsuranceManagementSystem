@@ -1,3 +1,17 @@
 ﻿@{
-    Layout = "_Layout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (User != null && User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        var userRole = Context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Value;
+
+        if (userRole == "ADMIN")
+        {
+            Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+        }
+        else if (userRole == "AGENT")
+        {
+            Layout = "~/Areas/Agent/Views/Shared/_AgentLayout.cshtml";
+        }
+    }
 }

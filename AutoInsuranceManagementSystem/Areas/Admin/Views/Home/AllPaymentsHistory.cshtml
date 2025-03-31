@@ -1,0 +1,42 @@
+﻿@model IEnumerable<AutoInsuranceManagementSystem.Models.PaymentEntityModel>
+
+@{
+	ViewBag.Title = "Manage Payments";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="form-container ">
+	@if (Model != null && Model.Any())
+	{
+		<div>
+				<h4 class="d-flex flex-row justify-content-center">Payments History</h4>
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>PaymentNumber</th>
+							<th>PolicyNumber</th>
+							<th>PaymentAmount</th>
+							<th>PaymentDate</th>
+							<th>PaymentStatus</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var user in Model)
+						{
+							<tr>
+								<td>@user.UniquePaymentNumber</td>
+								<td>@user.PolicyNumber</td>
+								<td>@user.PaymentAmount</td>
+								<td>@user.PaymentDate</td>
+								<td>@user.PaymentStatus</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+
+		</div>
+	}
+	else
+	{
+		<div class="alert alert-info" role="alert">No Payments Found</div>
+	}
+</div>

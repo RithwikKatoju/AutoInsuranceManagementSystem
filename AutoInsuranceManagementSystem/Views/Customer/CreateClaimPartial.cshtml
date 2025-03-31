@@ -8,7 +8,7 @@
 	<div class="text-danger" asp-validation-summary="All"></div>
 	<form class="form" asp-action="CreateClaimPartial" asp-controller="Customer" method="post">
 		<div class="form-group">
-			<label for="PolicyNumber">CoverageType</label>
+			<label for="PolicyNumber">Policy</label>
 			@Html.DropDownListFor(x => x.PolicyNumber,
 							Model.PolicyNumbers,
 							"Select a Policy,",

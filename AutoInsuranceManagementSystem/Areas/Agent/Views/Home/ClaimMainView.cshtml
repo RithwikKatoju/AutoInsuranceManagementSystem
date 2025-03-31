@@ -1,0 +1,78 @@
+﻿@model AutoInsuranceManagementSystem.Areas.Admin.Models.ClaimsViewModel.ClaimsApproveMainModel
+
+@{
+    ViewBag.Title = "Manage Claims";
+    Layout = "~/Areas/Agent/Views/Shared/_AgentLayout.cshtml";
+}
+
+<div class="form-container">
+
+    <h2>Policy Details</h2>
+    <div>
+        <label>Policy Number:</label>
+        <span>@Model.Policy.PolicyNumber</span>
+    </div>
+    <div>
+        <label>Vehicle Manufacturer:</label>
+        <span>@Model.Policy.VehicleDetails?.Make</span>
+    </div>
+    <div>
+        <label>Vehicle Model:</label>
+        <span>@Model.Policy.VehicleDetails?.Model</span>
+    </div>
+    <div>
+        <label>Coverage Amount:</label>
+        <span>@Model.Policy.CoverageAmount</span>
+    </div>
+    <div>
+        <label>Coverage Type:</label>
+        <span>@Model.Policy.CoverageType</span>
+    </div>
+    <div>
+        <label>Start Date:</label>
+        <span>@Model.Policy.StartDate?.ToString("yyyy-MM-dd")</span>
+    </div>
+    <div>
+        <label>End Date:</label>
+        <span>@Model.Policy.EndDate?.ToString("yyyy-MM-dd")</span>
+    </div>
+    <div>
+        <label>Policy Status:</label>
+        <span>@Model.Policy.PolicyStatus</span>
+    </div>
+    <div>
+        <label>Premium Amount:</label>
+        <span>@Model.Policy.PremiumAmount</span>
+    </div>
+
+    </<br />
+    <h2>Claim Details</h2>
+    <div>
+        <label>Claim Number:</label>
+        <span>@Model.Claim.UniqueClaimNumber</span>
+    </div>
+    <div>
+        <label>Policy Number:</label>
+        <span>@Model.Claim.PolicyNumber</span>
+    </div>
+    <div>
+        <label>Claim Amount:</label>
+        <span>@Model.Claim.ClaimAmount</span>
+    </div>
+    <div>
+        <label>Claim Reason:</label>
+        <span>@Model.Claim.ClaimReason</span>
+    </div>
+    <div>
+        <label>Claim Date:</label>
+        <span>@Model.Claim.ClaimDate?.ToString("yyyy-MM-dd")</span>
+    </div>
+    <div>
+        <label>Agent:</label>
+        <span>@Model.Claim.AgentId?.FullName</span>
+    </div>
+</div>
+<div>
+    <a asp-area="Agent" asp-controller="Home" asp-action="ApproveClaim" asp-route-ClaimId="@Model.Claim.ClaimId" class="btn btn-primary">Approve Claim</a>
+    <a asp-area="Agent" asp-controller="Home" asp-action="RejectClaim" asp-route-ClaimId="@Model.Claim.ClaimId" class="btn btn-danger">Reject Claim</a>
+</div>

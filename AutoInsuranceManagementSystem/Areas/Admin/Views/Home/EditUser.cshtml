@@ -1,0 +1,29 @@
+﻿@model AutoInsuranceManagementSystem.Areas.Admin.Models.UserEntityViewModel
+
+@{
+	ViewBag.Title = "Edit User";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="form-container">
+	<div class="text-danger" asp-validation-summary="All"></div>
+	<form class="form" asp-action="EditUser" asp-controller="Home" asp-area="Admin" method="post">
+		<div class="form-group">
+			<label for="Name">Name</label>
+			<input type="text" class="form-control" id="FullName" name="FullName" value="@Model.FullName" />
+		</div>
+		<div class="form-group">
+			<label for="Email">Email</label>
+			<input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" />
+		</div>
+		<div class="form-group">
+			<label for="Role">Role</label>
+			@Html.DropDownListFor(x => x.Role,
+							Model.DropRoles,
+							"Select a role,",
+							new { @id = "Role", @class = "form-control" })
+		</div>
+		<button type="submit" class="btn btn-primary">Update</button>
+
+	</form>
+</div>

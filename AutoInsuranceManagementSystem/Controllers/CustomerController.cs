@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using AutoInsuranceManagementSystem.Models.ClaimViewModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using AutoInsuranceManagementSystem.Models.TicketViewModel;
+using AutoInsuranceManagementSystem.Areas.Admin.Models;
 
 
 
@@ -21,6 +23,26 @@ namespace AutoInsuranceManagementSystem.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> Profile()
+        {
+            var accountUser = await _dbContext.Users
+                                    .Where(x => x.Id == (_userManager.GetUserId(User)))
+                                    .FirstOrDefaultAsync();
+            if (accountUser != null)
+            {
+                UserEntityViewModel userEntityViewModel = new()
+                {
+                    Email = accountUser.Email,
+                    FullName = accountUser.FullName,
+                    Role = accountUser.Role
+                };
+                return View(userEntityViewModel);
+            }
+            return NotFound();
+        }
+
+        //POLICIES - REQUEST AND MANAGE POLICIES
         public IActionResult _CreatePolicyPartial()
         {
             return View(new CreatePolicyViewModel());
@@ -37,7 +59,6 @@ namespace AutoInsuranceManagementSystem.Controllers
             if (model != null)
             {
                 var user = await userManager.GetUserAsync(User);
-                //var user =await _userManager.GetUserAsync(User);
 
                 PolicyEntityModel policy = new()
                 {
@@ -50,10 +71,9 @@ namespace AutoInsuranceManagementSystem.Controllers
                     PremiumAmount = GetPremiumAmount(model.CoverageType, model.CoverageAmount),
                     PolicyStatus = PolicyStatus.INACTIVE
                 };
-
-
                 await _dbContext.Policies.AddAsync(policy);
                 await _dbContext.SaveChangesAsync();
+                await CreatePayments();
 
             }
             return View("SuccessPolicy");
@@ -86,43 +106,12 @@ namespace AutoInsuranceManagementSystem.Controllers
 
 
 
-        //DashboardIndex
-        public IActionResult DashboardIndex()
-        {
-            return View();
-        }
-
-        //ManagePolicies - gets all policies if the user including inactive 
-
-        public async Task<IActionResult> ManagePolicies()
-        {
-
-            return View(await GetPoliciesToManage());
-        }
-
         private async Task<List<PolicyEntityModel>> GetPoliciesToManage()
         {
-            var users = await _dbContext.Policies
+            var policies = await _dbContext.Policies
                             .Where(x => x.UserId == (_userManager.GetUserId(User)))
                             .ToListAsync();
-            var listOfUserAccounts = new List<PolicyEntityModel>();
-            foreach (var user in users)
-            {
-                listOfUserAccounts.Add(new PolicyEntityModel
-                {
-                    PolicyId = user.PolicyId,
-                    PolicyNumber = user.PolicyNumber,
-                    VehicleDetails = user.VehicleDetails,
-                    CoverageAmount = user.CoverageAmount,
-                    CoverageType = user.CoverageType,
-                    StartDate = user.StartDate,
-                    EndDate = user.EndDate,
-                    PolicyStatus = user.PolicyStatus,
-                    PremiumAmount = user.PremiumAmount
-
-                });
-            }
-            return listOfUserAccounts;
+            return policies;
         }
 
         //Policies Main View
@@ -137,23 +126,19 @@ namespace AutoInsuranceManagementSystem.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> CreateClaimPartial()
+
+
+
+
+
+
+
+
+        //CLAIMS - CREATE AND MANAGE CLAIMS
+
+        public IActionResult CreateClaimPartial()
         {
-
-            var policyNumbers = await _dbContext.Policies
-                            .Where(x => x.UserId == (_userManager.GetUserId(User)))
-                            .Select(x => x.PolicyNumber)
-                            .ToListAsync();
-            var model = new CreateClaimViewModel
-            {
-                PolicyNumbers = policyNumbers.Select(v => new SelectListItem
-                {
-                    Text = v,
-                    Value = v
-                }).ToList()
-            };
-
-            return PartialView(model);
+            return View(new CreateClaimViewModel());
         }
 
         [HttpPost]
@@ -164,17 +149,14 @@ namespace AutoInsuranceManagementSystem.Controllers
                 return View(model);
             }
 
-            if(model != null)
+            if (model != null)
             {
-                var ModelpolicyId = await _dbContext.Policies
-                            .Where(x => x.PolicyNumber == model.PolicyNumber)
-                            .FirstOrDefaultAsync();
-
                 var claim = new ClaimEntityModel()
                 {
                     ClaimId = Guid.NewGuid(),
+                    UniqueClaimNumber = GenerateClaimNumber(),
                     UserId = _userManager.GetUserId(User),
-                    PolicyNumber = ModelpolicyId.PolicyNumber,
+                    PolicyNumber = model.PolicyNumber,    
                     ClaimAmount = model.ClaimAmount,
                     ClaimReason = model.ClaimReason,
                     ClaimDate = DateOnly.FromDateTime(DateTime.Now),
@@ -187,36 +169,30 @@ namespace AutoInsuranceManagementSystem.Controllers
                 return View("SuccessClaim");
             }
 
-            
             return View(model);
-
         }
-
-        public async Task<IActionResult> ManageClaims()
+        private string GenerateClaimNumber()
         {
+            // Example: "CLA" + current date + sequence number
+            var datePart = DateTime.Now.ToString("yyyyMMdd");
+            var sequenceNumber = _dbContext.Claims.Count() + 1;
 
-            return View(await GetClaimsToManage());
+            return $"CLA{datePart}{sequenceNumber:D5}";
         }
+
+        //public async Task<IActionResult> ManageClaims()
+        //{
+
+        //    return View(await GetClaimsToManage());
+        //}
 
         private async Task<List<ClaimEntityModel>> GetClaimsToManage()
         {
             var claims = await _dbContext.Claims
+                            .Include(x => x.AgentId)
                             .Where(x => x.UserId == (_userManager.GetUserId(User)))
                             .ToListAsync();
-            var listOfClaims = new List<ClaimEntityModel>();
-            foreach (var claim in claims)
-            {
-                listOfClaims.Add(new ClaimEntityModel
-                {
-                    ClaimId = claim.ClaimId,
-                    PolicyNumber = claim.PolicyNumber,
-                    ClaimAmount = claim.ClaimAmount,
-                    ClaimReason = claim.ClaimReason,
-                    ClaimDate = claim.ClaimDate,
-                    ClaimStatus = claim.ClaimStatus
-                });
-            }
-            return listOfClaims;
+            return claims;
         }
 
         public async Task<IActionResult> ClaimsMainView()
@@ -242,5 +218,187 @@ namespace AutoInsuranceManagementSystem.Controllers
             return View(model);
         }
 
+
+
+
+
+
+
+
+
+        //PAYMENTS
+
+        private async Task CreatePayments()
+        {
+            var PendingPolicies = await _dbContext.Policies
+                .Where(x => x.UserId == (_userManager.GetUserId(User)))
+                .Where(x => x.PolicyStatus == PolicyStatus.INACTIVE)
+                .ToListAsync();
+            foreach (var policy in PendingPolicies)
+            {
+                var payment = new PaymentEntityModel()
+                {
+                    PaymentId = Guid.NewGuid(),
+                    UniquePaymentNumber = GeneratePaymentNumber(),
+                    UserId = policy.UserId,
+                    PolicyNumber = policy.PolicyNumber,
+                    PaymentAmount = policy.PremiumAmount,
+                    PaymentStatus = PaymentStatus.PENDING
+                };
+
+                await _dbContext.Payments.AddAsync(payment);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+        private string GeneratePaymentNumber()
+        {
+            // Example: "CLA" + current date + sequence number
+            var datePart = DateTime.Now.ToString("yyyyMMdd");
+            var sequenceNumber = _dbContext.Payments.Count() + 1;
+
+            return $"PAY{datePart}{sequenceNumber:D5}";
+        }
+
+        public async Task<IActionResult> ManagePayments()
+        {
+            return View(await GetPaymentsToManage());
+        }
+
+        private async Task<List<PaymentEntityModel>> GetPaymentsToManage()
+        {
+            var payments = await _dbContext.Payments
+                            .Where(x => x.UserId == (_userManager.GetUserId(User)))
+                            .ToListAsync();
+            return payments;
+        }
+        
+        public async Task<IActionResult> PayNowPayment(string policyNumber)
+        { 
+
+            var payment = await _dbContext.Payments
+                .Where(x => x.PolicyNumber == policyNumber)
+                .FirstOrDefaultAsync();
+            if (payment != null)
+            {
+                payment.PaymentDate = DateOnly.FromDateTime(DateTime.Now);
+                _dbContext.SaveChanges();
+            }
+            return View(payment);
+        }
+
+        public async Task<IActionResult> ConfirmPayment(string policyNumber)
+        {
+            var payment = await _dbContext.Payments
+                .Where(x => x.PolicyNumber == policyNumber)
+                .FirstOrDefaultAsync();
+            var policy = await _dbContext.Policies
+                .Where(x => x.PolicyNumber == policyNumber)
+                .FirstOrDefaultAsync();
+            payment.PaymentStatus = PaymentStatus.PROCESSING;
+            //policy.StartDate = DateOnly.FromDateTime(DateTime.Now);
+            //policy.EndDate = DateOnly.FromDateTime(DateTime.Now.AddYears(1));
+            //policy.PolicyStatus = PolicyStatus.ACTIVE;
+
+            await _dbContext.SaveChangesAsync();
+
+            return View();
+        }
+
+        public async Task<IActionResult> DeclinePayment(string policyNumber)
+        {
+            var payment = await _dbContext.Payments
+                .Where(x => x.PolicyNumber == policyNumber)
+                .FirstOrDefaultAsync();
+            var policy = await _dbContext.Policies
+                .Where(x => x.PolicyNumber == policyNumber)
+                .FirstOrDefaultAsync();
+            payment.PaymentStatus = PaymentStatus.FAILED;
+            policy.PolicyStatus = PolicyStatus.INACTIVE;
+            await _dbContext.SaveChangesAsync();
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+        //SUPPORT TICKETS
+
+        public IActionResult CreateTicketPartial()
+        {
+            return View(new CreateTicketViewModel());
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateTicketPartial(CreateTicketViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (model != null)
+            {
+                var ticket = new SupportTicketEntity()
+                {
+                    TicketId = Guid.NewGuid(),
+                    UniqueTicketNumber = GenerateTicketNumber(),
+                    UserId = _userManager.GetUserId(User),
+                    PolicyNumber = model.PolicyNumber,    
+                    IssueDescription = model.IssueDescription,
+                    TicketStatus = TicketStatus.OPEN,
+                    CreatedDate = DateOnly.FromDateTime(DateTime.Now),
+                };
+
+                await _dbContext.Tickets.AddAsync(ticket);
+                await _dbContext.SaveChangesAsync();
+
+                return View("SuccessTicket");
+            }
+            return View(model);
+        }
+        private string GenerateTicketNumber()
+        {
+            // Example: "TIC" + current date + sequence number
+            var datePart = DateTime.Now.ToString("yyyyMMdd");
+            var sequenceNumber = _dbContext.Tickets.Count() + 1;
+
+            return $"TIC{datePart}{sequenceNumber:D5}";
+        }
+
+        private async Task<List<SupportTicketEntity>> GetTicketsToManage()
+        {
+            var tickets = await _dbContext.Tickets
+                            .Include(x => x.AgentId)
+                            .Where(x => x.UserId == (_userManager.GetUserId(User)))
+                            .ToListAsync();
+            return tickets;
+        }
+
+        public async Task<IActionResult> TicketsMainView()
+        {
+            var policyNumbers = await _dbContext.Policies
+                            .Where(x => x.UserId == (_userManager.GetUserId(User)))
+                            .Select(x => x.PolicyNumber)
+                            .ToListAsync();
+            var model = new TicketMainModel()
+            {
+                CreateTicketViewModel = new CreateTicketViewModel
+                {
+                    PolicyNumbers = policyNumbers.Select(v => new SelectListItem
+                    {
+                        Text = v,
+                        Value = v
+                    }).ToList()
+                },
+                ManageTicketsViewModel = await GetTicketsToManage(),
+            };
+
+
+            return View(model);
+        }
     }
 }

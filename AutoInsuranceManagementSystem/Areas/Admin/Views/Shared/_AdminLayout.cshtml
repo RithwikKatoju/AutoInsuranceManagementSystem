@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AutoInsuranceManagementSystem</title>
     <script type="importmap"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AutoInsuranceManagementSystem.styles.css" asp-append-version="true" />
@@ -21,13 +23,12 @@
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a asp-area="Agent" asp-controller="PolicyClaimPaymentViewModel" asp-action="Index" class="nav-link px-2">DashBoard</a></li>
-            <li><a asp-area="Admin" asp-controller="?" asp-action="Index" class="nav-link px-2">ManageUsers</a></li>
-            <li><a asp-area="Admin" asp-controller="Policy" asp-action="Index" class="nav-link px-2">Policies</a></li>
-            <li><a asp-area="Admin" asp-controller="Claim" asp-action="Index" class="nav-link px-2">Claims</a></li>
-            <li><a asp-area="Admin" asp-controller="Payment" asp-action="Index" class="nav-link px-2">Payments</a></li>
-            <li><a asp-area="Admin" asp-controller="Support" asp-action="Index" class="nav-link px-2">Support</a></li>
-            <li><a asp-area="Admin" asp-controller="?" asp-action="Index" class="nav-link px-2">Profile</a></li>
+            <li><a asp-area="Admin" asp-controller="Home" asp-action="ManageUsers" class="nav-link px-2">ManageUsers</a></li>
+            <li><a asp-area="Admin" asp-controller="Home" asp-action="PendingPolicies" class="nav-link px-2">Policies</a></li>
+            <li><a asp-area="Admin" asp-controller="Home" asp-action="OpenClaims" class="nav-link px-2">Claims</a></li>
+            <li><a asp-area="Admin" asp-controller="Home" asp-action="AllPaymentsHistory" class="nav-link px-2">Payments</a></li>
+            <li><a asp-area="Admin" asp-controller="Home" asp-action="OpenTickets" class="nav-link px-2">Support</a></li>
+            <li><a asp-area="Admin" asp-controller="Home" asp-action="Profile" class="nav-link px-2">Profile</a></li>
         </ul>
 
 

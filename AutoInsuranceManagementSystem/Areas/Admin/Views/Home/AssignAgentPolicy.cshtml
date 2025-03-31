@@ -1,0 +1,23 @@
+﻿@model AutoInsuranceManagementSystem.Areas.Admin.Models.AgentDropDownModel
+
+@{
+	ViewBag.Title = "Assign Agent";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="form-container">
+	<div class="text-danger" asp-validation-summary="All"></div>
+	
+	<form class="form" asp-action="AssignAgentPolicy" asp-controller="Home" asp-area="Admin" method="post">
+		<input type="hidden" name="policyId" value="@ViewData["PolicyId"]" />
+		<div class="form-group">
+			<label for="AgentUsers">CoverageType</label>
+			@Html.DropDownListFor(x => x.Agent,
+							Model.AgentUsers,
+							"Select a Agent,",
+							new { @id = "Agent", @class = "form-control" })
+		</div>
+		<button type="submit" class="btn btn-primary">Assign Agent</button>
+
+	</form>
+</div>

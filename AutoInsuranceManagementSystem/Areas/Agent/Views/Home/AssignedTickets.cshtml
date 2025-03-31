@@ -1,0 +1,53 @@
+﻿@model IEnumerable<AutoInsuranceManagementSystem.Models.SupportTicketEntity>
+
+@{
+	ViewBag.Title = "Manage Claims";
+	Layout = "~/Areas/Agent/Views/Shared/_AgentLayout.cshtml";
+}
+<div class="form-container ">
+	@if (Model != null && Model.Any())
+	{
+		<div>
+				<h4 class="d-flex flex-row justify-content-center">Assigned Tickets</h4>
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>TicketNumber</th>
+							<th>PolicyNumber</th>
+							<th>IssueDescription</th>
+							<th>CreatedDate</th>
+							<th>ResolvedDate</th>
+							<th>TicketStatus</th>
+							<th>Feedback</th>
+							<th>Agent</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var user in Model)
+						{
+							<tr>
+								<td>@user.UniqueTicketNumber</td>
+								<td>@user.PolicyNumber</td>
+								<td>@user.IssueDescription</td>
+								<td>@user.CreatedDate</td>
+								<td>@user.ResolvedDate</td>
+								<td>@user.TicketStatus</td>
+								<td>@user.Feedback</td>
+								<td>@user.AgentId?.FullName</td>
+								<td>
+									<a asp-area="Agent" asp-controller="Home" asp-action="TicketsMainView" asp-route-TicketId="@user.TicketId" class="btn btn-primary">Resolve Ticket</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+
+		</div>
+
+	}
+	else
+	{
+		<div class="alert alert-info" role="alert">No Pending Tickets Found</div>
+	}
+</div>

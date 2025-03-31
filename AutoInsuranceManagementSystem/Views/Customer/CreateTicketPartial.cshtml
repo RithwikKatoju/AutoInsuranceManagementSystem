@@ -1,0 +1,23 @@
+﻿@model AutoInsuranceManagementSystem.Models.TicketViewModel.CreateTicketViewModel
+
+@{
+	ViewBag.Title = "Create new Ticket";
+}
+
+<div class="form-container">
+	<div class="text-danger" asp-validation-summary="All"></div>
+	<form class="form" asp-action="CreateTicketPartial" asp-controller="Customer" method="post">
+		<div class="form-group">
+			<label for="PolicyNumber">Policy</label>
+			@Html.DropDownListFor(x => x.PolicyNumber,
+							Model.PolicyNumbers,
+							"Select a Policy,",
+							new { @id = "PolicyNumber", @class = "form-control" })
+		</div>
+		<div class="form-group">
+			<label for="IssueDescription">Issue Discription</label>
+			<input type="text" class="form-control" id="IssueDescription" name="IssueDescription" value="@Model.IssueDescription" />
+		</div>
+		<button type="submit" class="btn btn-primary">Submit Ticket</button>
+	</form>
+</div>

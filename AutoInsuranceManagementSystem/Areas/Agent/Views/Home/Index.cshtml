@@ -1,5 +1,91 @@
 ﻿@{
+    ViewBag.Title = "Insurance Policies";
     Layout = "~/Areas/Agent/Views/Shared/_AgentLayout.cshtml";
 }
 
-<h1>Welcome Agent</h1>
+<h4>Welcome Agent</h4>
+
+<div class="container mt-4">
+    <h2 class="text-center text-primary">Our Insurance Policies</h2>
+    <p class="text-muted text-center mb-5">
+        Discover a variety of coverage options tailored to protect you and your loved ones. Select the one that meets your needs and enjoy peace of mind.
+    </p>
+
+    <!-- Why Choose Us Section -->
+    <div class="row mb-5 text-center">
+        <div class="col-md-4">
+            <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+            <h5 class="text-secondary">Reliable Protection</h5>
+            <p>Our policies are designed to cover you when it matters the most.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-wallet fa-3x text-primary mb-3"></i>
+            <h5 class="text-secondary">Affordable Premiums</h5>
+            <p>We offer competitive premiums based on your coverage selection.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-thumbs-up fa-3x text-primary mb-3"></i>
+            <h5 class="text-secondary">Trusted Service</h5>
+            <p>Thousands of satisfied customers trust us for their insurance needs.</p>
+        </div>
+    </div>
+
+    <!-- Policies Section -->
+    <div class="row">
+        <!-- Collision -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-primary">
+                <div class="card-body">
+                    <h5 class="card-title text-primary"><i class="fas fa-car-crash"></i> Collision Coverage</h5>
+                    <p class="card-text">
+                        Helps cover repair or replacement of your car after an accident, no matter who's at fault. Essential for vehicle protection.
+                    </p>
+                    <p><strong>Premium Rate:</strong> 6% of the Coverage Amount</p>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comprehensive -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-success">
+                <div class="card-body">
+                    <h5 class="card-title text-success"><i class="fas fa-tree"></i> Comprehensive Coverage</h5>
+                    <p class="card-text">
+                        Covers damages from theft, vandalism, natural disasters, and more. Perfect for all-around protection.
+                    </p>
+                    <p><strong>Premium Rate:</strong> 4% of the Coverage Amount</p>
+                    <a href="#" class="btn btn-outline-success btn-sm">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PIP -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-warning">
+                <div class="card-body">
+                    <h5 class="card-title text-warning"><i class="fas fa-first-aid"></i> Personal Injury Protection (PIP)</h5>
+                    <p class="card-text">
+                        Covers medical expenses and lost wages for you and your passengers, regardless of fault. Safety first!
+                    </p>
+                    <p><strong>Premium Rate:</strong> 4% of the Coverage Amount</p>
+                    <a href="#" class="btn btn-outline-warning btn-sm">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liability -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-danger">
+                <div class="card-body">
+                    <h5 class="card-title text-danger"><i class="fas fa-balance-scale"></i> Liability Coverage</h5>
+                    <p class="card-text">
+                        Covers costs of damages and injuries to others if you're at fault. Often required by law.
+                    </p>
+                    <p><strong>Premium Rate:</strong> 3% of the Coverage Amount</p>
+                    <a href="#" class="btn btn-outline-danger btn-sm">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

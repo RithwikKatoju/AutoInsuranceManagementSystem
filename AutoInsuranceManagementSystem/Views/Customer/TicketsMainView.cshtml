@@ -1,0 +1,25 @@
+﻿@model AutoInsuranceManagementSystem.Models.TicketViewModel.TicketMainModel
+
+@{
+    ViewBag.Title = "Tickets Dashboard";
+}
+
+<div class="dashboard-container">
+    <h1>Tickets Management Dashboard</h1>
+
+    <hr />
+
+    <div class="row">
+        <!-- Render CreatePolicy Partial View -->
+        <div class="col-md-2">
+            <h2>Submit New Ticket</h2>
+            @Html.Partial("CreateTicketPartial", Model.CreateTicketViewModel)
+        </div>
+
+        <!-- Render ManagePolicies Partial View -->
+        <div class="col-md-2">
+            <h2>Manage Tickets</h2>
+            @Html.Partial("ManageTicketsPartial", Model.ManageTicketsViewModel)
+        </div>
+    </div>
+</div>

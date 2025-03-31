@@ -1,0 +1,50 @@
+﻿@model IEnumerable<AutoInsuranceManagementSystem.Models.ClaimEntityModel>
+
+@{
+	ViewBag.Title = "Manage Claims";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="form-container ">
+	@if (Model != null && Model.Any())
+	{
+		<div>
+			<h4 class="d-flex flex-row justify-content-center">Processing Claims</h4>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>ClaimNumber</th>
+						<th>PolicyNumber</th>
+						<th>ClaimAmount</th>
+						<th>ClaimReason</th>
+						<th>ClaimDate</th>
+						<th>ClaimStatus</th>
+						<th>Agent</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var user in Model)
+					{
+						<tr>
+							<td>@user.UniqueClaimNumber</td>
+							<td>@user.PolicyNumber</td>
+							<td>@user.ClaimAmount</td>
+							<td>@user.ClaimReason</td>
+							<td>@user.ClaimDate</td>
+							<td>@user.ClaimStatus</td>
+							<td>@user.AgentId?.FullName</td>
+							<td>
+								<a asp-area="Admin" asp-controller="Home" asp-action="AssignAgentClaim" asp-route-ClaimId="@user.ClaimId" class="btn btn-danger">Assign Agent</a>
+								<a asp-area="Admin" asp-controller="Home" asp-action="ClaimMainView" asp-route-ClaimId="@user.ClaimId" class="btn btn-primary">Aprrove Claim</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	}
+	else
+	{
+		<div class="alert alert-info" role="alert">No Pending Claims Found</div>
+	}
+</div>

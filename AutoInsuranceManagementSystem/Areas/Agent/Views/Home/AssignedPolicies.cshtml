@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AutoInsuranceManagementSystem.Models.PolicyEntityModel>
+
+@{
+	ViewBag.Title = "Assigned Policies";
+	Layout = "~/Areas/Agent/Views/Shared/_AgentLayout.cshtml";
+}
+<div class="form-container ">
+	@if (Model != null && Model.Any())
+	{
+		<div>
+			<h4 class="d-flex flex-row justify-content-center">Assigned Policies</h4>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>PolicyNumber</th>
+						<th>Vehicle Manufacturer</th>
+						<th>Vehicle Model</th>
+						<th>CoverageAmount</th>
+						<th>CoverageType</th>
+						<th>StartDate</th>
+						<th>EndDate</th>
+						<th>Policy Status</th>
+						<th>PremiumAmount</th>
+						<th>Agent</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var user in Model)
+					{
+						<tr>
+							<td>@user.PolicyNumber</td>
+							<td>@user.VehicleDetails?.Make</td>
+							<td>@user.VehicleDetails?.Model</td>
+							<td>@user.CoverageAmount</td>
+							<td>@user.CoverageType</td>
+							<td>@user.StartDate</td>
+							<td>@user.EndDate</td>
+							<td>@user.PolicyStatus</td>
+							<td>@user.PremiumAmount</td>
+							<td>@user.Agent?.FullName</td>
+							<td>
+								<a asp-area="Agent" asp-controller="Home" asp-action="ApprovePolicy" asp-route-PolicyId="@user.PolicyId" class="btn btn-primary">Aprrove Policy</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	}
+	else
+	{
+		<div class="alert alert-info" role="alert">No Pending Policies Found</div>
+	}
+	@* <br /> *@
+	@* <a asp-asp-controller="Customer" asp-action="CreatePolicy" class="btn btn-primary">Create New Policy</a> *@
+</div>

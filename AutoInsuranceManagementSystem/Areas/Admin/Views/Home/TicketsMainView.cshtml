@@ -1,0 +1,89 @@
+﻿@model AutoInsuranceManagementSystem.Areas.Admin.Models.TicketsViewModel.TicketsResolveMainModel
+
+@{
+    ViewBag.Title = "Manage Tickets";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="form-container">
+
+    <h2>Policy Details</h2>
+    <div>
+        <label>Policy Number:</label>
+        <span>@Model.Policy.PolicyNumber</span>
+    </div>
+    <div>
+        <label>Vehicle Manufacturer:</label>
+        <span>@Model.Policy.VehicleDetails?.Make</span>
+    </div>
+    <div>
+        <label>Vehicle Model:</label>
+        <span>@Model.Policy.VehicleDetails?.Model</span>
+    </div>
+    <div>
+        <label>Coverage Amount:</label>
+        <span>@Model.Policy.CoverageAmount</span>
+    </div>
+    <div>
+        <label>Coverage Type:</label>
+        <span>@Model.Policy.CoverageType</span>
+    </div>
+    <div>
+        <label>Start Date:</label>
+        <span>@Model.Policy.StartDate?.ToString("yyyy-MM-dd")</span>
+    </div>
+    <div>
+        <label>End Date:</label>
+        <span>@Model.Policy.EndDate?.ToString("yyyy-MM-dd")</span>
+    </div>
+    <div>
+        <label>Policy Status:</label>
+        <span>@Model.Policy.PolicyStatus</span>
+    </div>
+    <div>
+        <label>Premium Amount:</label>
+        <span>@Model.Policy.PremiumAmount</span>
+    </div>
+
+    </<br />
+    <h2>Ticket Details</h2>
+    <div>
+        <label>Claim Number:</label>
+        <span>@Model.Ticket.UniqueTicketNumber</span>
+    </div>
+    <div>
+        <label>Policy Number:</label>
+        <span>@Model.Ticket.PolicyNumber</span>
+    </div>
+    <div>
+        <label>IssueDescription:</label>
+        <span>@Model.Ticket.IssueDescription</span>
+    </div>
+    <div>
+        <label>Ticket Created Date:</label>
+        <span>@Model.Ticket.CreatedDate?.ToString("yyyy-MM-dd")</span>
+    </div>
+    <div>
+        <label>Ticket Resolved Date:</label>
+        <span>@Model.Ticket.ResolvedDate?.ToString("yyyy-MM-dd")</span>
+    </div>
+    <div>
+        <label>Ticket Status:</label>
+        <span>@Model.Ticket.TicketStatus</span>
+    </div>
+    <div>
+        <label>Agent:</label>
+        <span>@Model.Ticket.AgentId?.FullName</span>
+    </div>
+    <form asp-area="Admin" asp-controller="Home" asp-action="ResolveTicket" method="post" class="form">
+        <input type="hidden" name="TicketId" value="@Model.Ticket.TicketId" />
+
+        <div class="form-group">
+            <label for="Feedback">Ticket Feedback:</label>
+            <input type="text" name="Feedback" value="@Model.Ticket.Feedback" id="Feedback" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Resolve Claim</button>
+    </form>
+
+</div>
+

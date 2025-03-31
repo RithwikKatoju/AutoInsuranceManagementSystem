@@ -18,7 +18,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    padding-top: 20px;
+    margin-bottom: 60px;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -33,3 +34,32 @@ body {
 .header-colour {
     background-color: black;
 }
+.form-container {
+    align-content:normal;
+    justify-content: center;
+    display:flow-root;
+    animation: zoomOut 1.5s ease-in-out;
+}
+@keyframes zoomOut {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+.btn-primary {
+    border-radius: 12px;
+    background-color: #ffc107;
+}
+.btn-primary:hover {
+    border-radius: 20px;
+    background-color: #d7930b;
+}
+
+.form-group {
+    padding: 4px 7px 10px 4px;
+}
+
+

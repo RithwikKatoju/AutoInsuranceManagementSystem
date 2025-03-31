@@ -1,0 +1,34 @@
+﻿@model AutoInsuranceManagementSystem.Models.PaymentEntityModel
+
+@{
+	ViewBag.Title = "Manage Payments";
+}
+<div class="form-container ">
+		<h4 class="d-flex flex-row justify-content-center">Payment Portal</h4>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>PaymentNumber</th>
+					<th>PolicyNumber</th>
+					<th>PaymentAmount</th>
+					<th>PaymentDate</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr>
+					<td>@Model.UniquePaymentNumber</td>
+					<td>@Model.PolicyNumber</td>
+					<td>@Model.PaymentAmount</td>
+					<td>@Model.PaymentDate</td>
+					<td>
+					<a asp-controller="Customer" asp-action="ConfirmPayment" asp-route-PolicyNumber="@Model.PolicyNumber" class="btn btn-primary">Confirm Payment</a>
+						<a asp-controller="Customer" asp-action="ManagePayments" class="btn btn-danger">Cancel</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+</div>
