@@ -25,14 +25,6 @@ namespace AutoInsuranceManagementSystem.Areas.Agent.Controllers
             return View();
         }
 
-        //public async Task<IActionResult> EditProfile()
-        //{
-        //    var user = await _dbContext.Users
-        //        .Where(x => x.Id == (_userManager.GetUserId(User)))
-        //        .FirstOrDefaultAsync();
-
-
-        //}
 
         public async Task<IActionResult> Profile()
         {
@@ -54,167 +46,6 @@ namespace AutoInsuranceManagementSystem.Areas.Agent.Controllers
 
 
 
-        //public async Task<IActionResult> ManageUsers()
-        //{
-        //    return View(await GetUsersToManage());
-        //}
-
-        //private async Task<List<UserEntityViewModel>> GetUsersToManage()
-        //{
-        //    var users = await _userManager.Users
-        //                    .Where(x => x.Role != Roles.ADMIN)
-        //                    .ToListAsync();
-        //    var listOfUserAccounts = new List<UserEntityViewModel>();
-        //    foreach (var user in users)
-        //    {
-        //        listOfUserAccounts.Add(new UserEntityViewModel
-        //        {
-        //            Email = user.Email,
-        //            FullName = user.FullName,
-        //            Role = user.Role
-        //        });
-        //    }
-        //    return listOfUserAccounts;
-        //}
-
-
-        //public async Task<IActionResult> EditUser(string email)
-        //{
-        //    var accountUser = await _userManager.FindByEmailAsync(email);
-        //    if (accountUser != null)
-        //    {
-        //        UserEntityViewModel userEntityViewModel = new()
-        //        {
-        //            Email = accountUser.Email,
-        //            FullName = accountUser.FullName,
-        //            Role = accountUser.Role,
-        //            DropRoles = Enum.GetValues<Roles>()
-        //            .Select(x => new SelectListItem
-        //            {
-        //                Text = Enum.GetName(x),
-        //                Value = x.ToString()
-        //            })
-
-        //        };
-        //        return View(userEntityViewModel);
-        //    }
-        //    return NotFound();
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> EditUser(UserEntityViewModel userEntityViewModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(userEntityViewModel);
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-        //            UserEntityModel? userEntityModel = await _userManager.FindByEmailAsync(userEntityViewModel?.Email ?? "");
-        //            if (userEntityModel != null)
-        //            {
-        //                userEntityModel.Role = userEntityViewModel.Role;
-        //                userEntityModel.FullName = userEntityViewModel.FullName;
-        //                var claims = await _userManager.GetClaimsAsync(userEntityModel);
-        //                var removeResult = await _userManager.RemoveClaimsAsync(userEntityModel, claims);
-        //                if (!removeResult.Succeeded)
-        //                {
-        //                    //DisplayError
-        //                    ModelState.AddModelError(string.Empty, "Unable to Update Claims - removing existing claim failed");
-        //                    return View(userEntityModel);
-        //                }
-        //                var claimsRequired = new List<Claim>
-        //            { new (ClaimTypes.Name, userEntityViewModel.FullName ?? ""),
-        //                new (ClaimTypes.Role, Enum.GetName(userEntityViewModel.Role)?? ""),
-        //                new (ClaimTypes.NameIdentifier, userEntityModel.Id),
-        //                new (ClaimTypes.Email, userEntityViewModel.Email ?? "")
-        //            };
-        //                var addClaimResult = await _userManager.AddClaimsAsync(userEntityModel, claimsRequired);
-        //                if (!addClaimResult.Succeeded)
-        //                {
-        //                    //DisplayError
-        //                    ModelState.AddModelError(string.Empty, "Unable to Update Claims - Adding new claim failed");
-        //                    return View(userEntityViewModel);
-        //                }
-        //                var userUpdateResult = await _userManager.UpdateAsync(userEntityModel);
-        //                if (!userUpdateResult.Succeeded)
-        //                {
-        //                    //DisplayError
-        //                    ModelState.AddModelError(string.Empty, "Unable to Update Claims - Update new  claim failed");
-        //                    return View(userEntityViewModel);
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            ModelState.AddModelError(String.Empty, ex.Message);
-        //            return View(userEntityViewModel);
-        //        }
-        //    }
-        //    return View("ManageUsers", await GetUsersToManage());
-        //}
-
-
-        //public IActionResult CreateUser()
-        //{
-        //    return View(new CreateUserEntityViewModel());
-        //}
-
-        //[HttpPost]
-
-        //public async Task<IActionResult> CreateUser(CreateUserEntityViewModel createUserEntityViewModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(createUserEntityViewModel);
-        //    }
-        //    if (createUserEntityViewModel != null
-        //        && createUserEntityViewModel.Email != null
-        //        && !createUserEntityViewModel.Email.Equals(createUserEntityViewModel.ConfirmEmail))
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Email and Confirm Email do not match!");
-        //        return View(createUserEntityViewModel);
-        //    }
-        //    if (createUserEntityViewModel != null
-        //        && createUserEntityViewModel.Password != null
-        //        && !createUserEntityViewModel.Password.Equals(createUserEntityViewModel.ConfirmPassword))
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Password and Confirm Password do not match!");
-        //        return View(createUserEntityViewModel);
-        //    }
-        //    if (createUserEntityViewModel != null)
-        //    {
-        //        UserEntityModel userEntityModel = new()
-        //        {
-        //            FullName = createUserEntityViewModel.FullName,
-        //            Email = createUserEntityViewModel.Email,
-        //            UserName = createUserEntityViewModel.Email,
-        //            Role = createUserEntityViewModel.Role.Role
-        //        };
-        //        var CreatedUser = await _userManager.CreateAsync(userEntityModel, createUserEntityViewModel?.Password ?? "Open@1234");
-        //        if (!CreatedUser.Succeeded)
-        //        {
-        //            ModelState.AddModelError(string.Empty, "User Not Created");
-        //            return View(createUserEntityViewModel);
-        //        }
-        //        if (createUserEntityViewModel != null)
-        //        {
-        //            var claimsRequired = new List<Claim>
-        //            { new (ClaimTypes.Name, createUserEntityViewModel.FullName ?? ""),
-        //                new (ClaimTypes.Role, Enum.GetName(createUserEntityViewModel.Role.Role)?? ""),
-        //                new (ClaimTypes.NameIdentifier, userEntityModel.Id),
-        //                new (ClaimTypes.Email, createUserEntityViewModel.Email ?? "")
-        //            };
-        //            await _userManager.AddClaimsAsync(userEntityModel, claimsRequired);
-        //            await _userManager.UpdateAsync(userEntityModel);
-
-        //        }
-        //        return View("ManageUsers", await GetUsersToManage());
-        //    }
-        //    return View(new CreateUserEntityViewModel());
-        //}
 
 
         //POLICIES
@@ -234,51 +65,6 @@ namespace AutoInsuranceManagementSystem.Areas.Agent.Controllers
 
             return View(assignedPolicies);
         }
-
-        //private async Task<AgentDropDownModel> AgentDropDown()
-        //{
-        //    var agentUsers = await _userManager.Users
-        //        .Where(x => x.Role == Roles.AGENT)
-        //        .ToListAsync();
-        //    // Map the users to SelectListItem for a dropdown
-        //    var agentUserDropdown = new AgentDropDownModel()
-        //    {
-        //        AgentUsers = agentUsers.Select(user => new SelectListItem
-        //        {
-        //            Text = user.FullName,
-        //            Value = user.Id
-        //        }).ToList()
-        //    };
-        //    return agentUserDropdown;
-        //}
-        //public async Task<IActionResult> AssignAgentPolicy(Guid policyId)
-        //{
-
-        //    ViewData["PolicyId"] = policyId;
-        //    return View(await AgentDropDown());
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> AssignAgentPolicy(AgentDropDownModel agentDropDownModel, Guid policyId)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(agentDropDownModel);
-        //    }
-        //    var policy = await _dbContext.Policies
-        //                                .Where(x => x.PolicyId == policyId)
-        //                                .FirstOrDefaultAsync();
-        //    if (policy != null)
-        //    {
-        //        var agent = await _dbContext.Users.FindAsync(agentDropDownModel.Agent);
-        //        policy.Agent = agent;
-
-        //        _dbContext.SaveChanges();
-        //        return RedirectToAction("PendingPolicies");
-        //    }
-        //    return NotFound("Policy not found.");
-        //}
-
 
         public async Task<IActionResult> ApprovePolicy(Guid policyId)
         {
@@ -310,6 +96,12 @@ namespace AutoInsuranceManagementSystem.Areas.Agent.Controllers
             return NotFound("Policy not found.");
         }
 
+
+
+
+
+
+
         //CLAIMS
 
 
@@ -328,7 +120,7 @@ namespace AutoInsuranceManagementSystem.Areas.Agent.Controllers
 
         public async Task<IActionResult> ClaimMainView(Guid claimId)
         {
-            // Fetch claim details
+
             var claim = await _dbContext.Claims
                 .Include(x => x.AgentId)
                 .Where(x => x.ClaimId == claimId)
@@ -339,7 +131,7 @@ namespace AutoInsuranceManagementSystem.Areas.Agent.Controllers
                 return NotFound("Claim not found.");
             }
 
-            // Fetch policy details linked to the claim's PolicyNumber
+
             var policy = await _dbContext.Policies
                 .Where(x => x.PolicyNumber == claim.PolicyNumber)
                 .FirstOrDefaultAsync();
@@ -369,7 +161,7 @@ namespace AutoInsuranceManagementSystem.Areas.Agent.Controllers
                 return NotFound("Claim not found.");
             }
 
-            // Fetch policy details linked to the claim's PolicyNumber
+
             var policy = await _dbContext.Policies
                 .Where(x => x.PolicyNumber == claim.PolicyNumber)
                 .FirstOrDefaultAsync();
@@ -407,33 +199,8 @@ namespace AutoInsuranceManagementSystem.Areas.Agent.Controllers
             return View();
         }
 
-        //public async Task<IActionResult> AssignAgentClaim(Guid claimId)
-        //{
 
-        //    ViewData["ClaimId"] = claimId;
-        //    return View(await AgentDropDown());
-        //}
 
-        //[HttpPost]
-        //public async Task<IActionResult> AssignAgentClaim(AgentDropDownModel agentDropDownModel, Guid claimId)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(agentDropDownModel);
-        //    }
-        //    var claim = await _dbContext.Claims
-        //                                .Where(x => x.ClaimId == claimId)
-        //                                .FirstOrDefaultAsync();
-        //    if (claim != null)
-        //    {
-        //        var agent = await _dbContext.Users.FindAsync(agentDropDownModel.Agent);
-        //        claim.AgentId = agent;
-
-        //        _dbContext.SaveChanges();
-        //        return RedirectToAction("OpenClaims");
-        //    }
-        //    return NotFound("Claims not found.");
-        //}
 
         //PAYMENTS
 
@@ -449,10 +216,10 @@ namespace AutoInsuranceManagementSystem.Areas.Agent.Controllers
 
         public async Task<IActionResult> AssignedTickets()
         {
-            var loggedInUserId = _userManager.GetUserId(User); // Get the logged-in user's ID
+            var loggedInUserId = _userManager.GetUserId(User); 
 
             var assignedTickets = await _dbContext.Tickets
-                .Where(ticket => ticket.AgentId.Id == loggedInUserId) // Filter by the logged-in user's ID
+                .Where(ticket => ticket.AgentId.Id == loggedInUserId) 
                 .ToListAsync();
 
             return View(assignedTickets);
@@ -514,33 +281,5 @@ namespace AutoInsuranceManagementSystem.Areas.Agent.Controllers
 
             return RedirectToAction("OpenTickets");
         }
-
-        //public async Task<IActionResult> AssignAgentTicket(Guid ticketId)
-        //{
-
-        //    ViewData["TicketId"] = ticketId;
-        //    return View(await AgentDropDown());
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> AssignAgentTicket(AgentDropDownModel agentDropDownModel, Guid ticketId)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(agentDropDownModel);
-        //    }
-        //    var ticket = await _dbContext.Tickets
-        //                                .Where(x => x.TicketId == ticketId)
-        //                                .FirstOrDefaultAsync();
-        //    if (ticket != null)
-        //    {
-        //        var agent = await _dbContext.Users.FindAsync(agentDropDownModel.Agent);
-        //        ticket.AgentId = agent;
-
-        //        _dbContext.SaveChanges();
-        //        return RedirectToAction("OpenTickets");
-        //    }
-        //    return NotFound("Ticket not found.");
-        //}
     }
 }

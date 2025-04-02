@@ -15,7 +15,7 @@ namespace AutoInsuranceManagementSystem.Areas.Admin.Controllers
     [Area("Admin")]
     [Authorize(Roles = "ADMIN")]
     [Route("Admin/[controller]/[action]")]
-    public class HomeController(AppDbContext dbContext, UserManager<UserEntityModel> userManager) : AdminBaseController
+    public class HomeController(AppDbContext dbContext, UserManager<UserEntityModel> userManager) : BaseController
     {
         private readonly AppDbContext _dbContext = dbContext;
         private readonly UserManager<UserEntityModel> _userManager = userManager;
