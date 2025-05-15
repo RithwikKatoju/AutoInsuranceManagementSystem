@@ -104,8 +104,6 @@ namespace AutoInsuranceManagementSystem.Controllers
             return 0;
         }
 
-
-
         private async Task<List<PolicyEntityModel>> GetPoliciesToManage()
         {
             var policies = await _dbContext.Policies
